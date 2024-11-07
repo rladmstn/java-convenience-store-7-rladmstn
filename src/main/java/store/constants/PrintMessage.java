@@ -1,4 +1,4 @@
-package store.enums;
+package store.constants;
 
 public enum PrintMessage {
     // input
