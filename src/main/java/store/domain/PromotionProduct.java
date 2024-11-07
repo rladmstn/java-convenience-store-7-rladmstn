@@ -11,4 +11,8 @@ public class PromotionProduct extends Product{
     public Promotion getPromotion(){
         return promotion;
     }
+
+    public String getPromotionName(){
+        return promotion.name();
+    }
 }

@@ -2,7 +2,7 @@ package store.view;
 
 import java.util.List;
 import store.constants.PrintMessage;
-import store.dto.CatalogResponse;
+import store.dto.ProductResponse;
 import store.dto.PromotionProductResponse;
 import store.dto.PurchasedProductResponse;
 import store.dto.ReceiptResponse;
@@ -10,10 +10,10 @@ import store.dto.SummaryResponse;
 import store.dto.TotalPaymentResponse;
 
 public class OutputView {
-    public void printCatalog(List<CatalogResponse> catalogs) {
+    public void printCatalog(List<ProductResponse> catalogs) {
         System.out.println(PrintMessage.PRINT_START);
         System.out.println();
-        for (CatalogResponse catalog : catalogs) {
+        for (ProductResponse catalog : catalogs) {
             System.out.println(PrintMessage.PRINT_PRODUCT.format(
                     catalog.name(),
                     catalog.price(),

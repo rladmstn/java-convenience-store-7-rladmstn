@@ -1,6 +1,6 @@
 package store.dto;
 
-public record CatalogResponse(String name,
+public record ProductResponse(String name,
                               int price,
                               String stock,
                               String promotion) {

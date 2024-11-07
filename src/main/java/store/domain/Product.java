@@ -1,6 +1,9 @@
 package store.domain;
 
 public abstract class Product {
+    private static final String NON_STOCK = "재고 없음";
+    private static final String COUNT_SUFFIX = "개";
+
     private final String name;
     private final int price;
     private int stock;
@@ -25,5 +28,12 @@ public abstract class Product {
 
     public int getStock(){
         return stock;
+    }
+
+    public String getStockToString(){
+        if(price == 0){
+            return NON_STOCK;
+        }
+        return price + COUNT_SUFFIX;
     }
 }
