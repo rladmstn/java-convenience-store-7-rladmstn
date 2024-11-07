@@ -15,4 +15,8 @@ public class Catalog {
         products.add(product);
         catalog.put(name, products);
     }
+
+    public Map<String, List<Product>> getCatalog() {
+        return catalog;
+    }
 }
