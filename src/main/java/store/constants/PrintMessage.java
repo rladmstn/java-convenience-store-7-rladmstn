@@ -18,7 +18,8 @@ public enum PrintMessage {
     PRINT_RECEIPT_PROMOTION("=============증\t정==============="),
     PRINT_PROMOTION_PRODUCT("%-10s %-2d"),
     PRINT_RECEIPT_END("=================================="),
-    PRINT_PAYMENT_AMOUNT("%-10s %8,d");
+    PRINT_TOTAL("총구매액\t\t%-2d\t%6,d"),
+    PRINT_SUMMARY("%-10s %8,d");
 
     private final String message;
 
