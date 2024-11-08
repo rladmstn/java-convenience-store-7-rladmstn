@@ -16,6 +16,6 @@ public enum ErrorMessage {
     }
 
     public String getMessage() {
-        return PREFIX.getMessage() + message;
+        return PREFIX.message.formatted(message);
     }
 }
