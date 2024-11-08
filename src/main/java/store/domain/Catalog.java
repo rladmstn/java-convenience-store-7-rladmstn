@@ -19,4 +19,14 @@ public class Catalog {
     public Map<String, List<Product>> getCatalog() {
         return catalog;
     }
+
+    public boolean hasProduct(String name){
+        return catalog.containsKey(name);
+    }
+
+    public boolean hasSufficientStock(String name, int quantity){
+        List<Product> products = catalog.get(name);
+        int totalStock = products.stream().mapToInt(Product::getStock).sum();
+        return totalStock >= quantity;
+    }
 }
