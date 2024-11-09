@@ -6,7 +6,7 @@ import java.util.List;
 
 public record Promotion(String name,
                         int buyCount,
-                        int getCount,
+                        int giveCount,
                         LocalDate startDate,
                         LocalDate endDate) {
 
