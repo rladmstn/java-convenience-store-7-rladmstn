@@ -19,7 +19,7 @@ public enum PrintMessage {
     PRINT_PROMOTION_PRODUCT("%-10s %-2d"),
     PRINT_RECEIPT_END("=================================="),
     PRINT_TOTAL("총구매액\t\t%-2d\t%,d"),
-    PRINT_SUMMARY("%-10s %,d");
+    PRINT_SUMMARY("%-10s %s");
 
     private final String message;
 
