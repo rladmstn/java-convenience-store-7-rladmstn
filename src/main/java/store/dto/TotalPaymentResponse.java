@@ -1,5 +1,6 @@
 package store.dto;
 
-public record TotalPaymentResponse(int count,
-                                   int totalPayment) {
+public record TotalPaymentResponse(String category,
+                                   int count,
+                                   String totalPayment) {
 }

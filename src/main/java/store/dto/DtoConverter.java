@@ -47,10 +47,14 @@ public final class DtoConverter {
         List<PurchasedProductResponse> allPurchasedResponses = new ArrayList<>();
         List<PromotionProductResponse> promotionsResponses = new ArrayList<>();
         addResultToResponses(purchaseResults, allPurchasedResponses, promotionsResponses);
-        TotalPaymentResponse totalPaymentResponse = new TotalPaymentResponse(finalCount, finalAmount);
+        TotalPaymentResponse totalPaymentResponse = getTotalPaymentResponse(finalCount, finalAmount);
         List<SummaryResponse> summaryResponse = getSummaryResponses(membershipDiscount, finalPromotionAmount,
                 finalAmount);
         return new ReceiptResponse(allPurchasedResponses, promotionsResponses, totalPaymentResponse, summaryResponse);
+    }
+
+    private static TotalPaymentResponse getTotalPaymentResponse(int finalCount, int finalAmount) {
+        return new TotalPaymentResponse(ReceiptCategory.TOTAL_PURCHASE_AMOUNT_CATEGORY.get(), finalCount, NumberFormatUtil.numberFormat(finalAmount));
     }
 
     private static int getFinalCount(List<PurchaseResult> results) {
@@ -73,7 +77,7 @@ public final class DtoConverter {
         for (PurchaseResult purchaseResult : purchaseResults) {
             purchasedProductResponses.add(
                     new PurchasedProductResponse(purchaseResult.getName(), purchaseResult.getTotalCount(),
-                            purchaseResult.getTotalAmount()));
+                            NumberFormatUtil.numberFormat(purchaseResult.getTotalAmount())));
             if (purchaseResult instanceof PromotionPurchaseResult) {
                 promotionProductResponses.add(new PromotionProductResponse(purchaseResult.getName(),
                         ((PromotionPurchaseResult) purchaseResult).getPromotionAppliedCount()));

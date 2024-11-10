@@ -12,14 +12,14 @@ public enum PrintMessage {
     PRINT_START("안녕하세요. W편의점입니다.\n현재 보유하고 있는 상품입니다.\n"),
     PRINT_PRODUCT("- %s %,d원 %s %s"),
 
-    PRINT_RECEIPT_START("==============W 편의점============"),
-    PRINT_CATEGORY("상품명\t\t수량\t금액"),
-    PRINT_PURCHASE_PRODUCT("%-10s %-2d %,d"),
+    PRINT_RECEIPT_START("==============W 편의점================"),
+    PRINT_CATEGORY("상품명\t\t수량\t\t 금액"),
+    PRINT_PURCHASE_PRODUCT("%-10s\t%-3d\t\t %-10s"),
     PRINT_RECEIPT_PROMOTION("=============증\t정==============="),
-    PRINT_PROMOTION_PRODUCT("%-10s %-2d"),
-    PRINT_RECEIPT_END("=================================="),
-    PRINT_TOTAL("총구매액\t\t%-2d\t%,d"),
-    PRINT_SUMMARY("%-10s %s");
+    PRINT_PROMOTION_PRODUCT("%-10s\t%-2d"),
+    PRINT_RECEIPT_END("===================================="),
+    PRINT_TOTAL("%-5s\t\t%-3d\t%10s"),
+    PRINT_SUMMARY("%-5s\t\t\t%10s");
 
     private final String message;
 

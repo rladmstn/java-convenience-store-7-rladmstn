@@ -51,7 +51,8 @@ public class OutputView {
 
     private void printTotalSummary(TotalPaymentResponse totalPayment, List<SummaryResponse> summaryResponse) {
         System.out.println(PrintMessage.PRINT_RECEIPT_END.get());
-        System.out.println(PrintMessage.PRINT_TOTAL.format(totalPayment.count(), totalPayment.totalPayment()));
+        System.out.println(PrintMessage.PRINT_TOTAL.format(totalPayment.category(), totalPayment.count(),
+                totalPayment.totalPayment()));
         for (SummaryResponse summary : summaryResponse) {
             System.out.println(PrintMessage.PRINT_SUMMARY.format(summary.category(), summary.payment()));
         }
