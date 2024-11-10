@@ -49,7 +49,7 @@ public class ConvenienceStoreService {
         int originalPriceTotalAmount = 0;
         for (PurchaseResult result : purchaseResults) {
             if (result instanceof PromotionPurchaseResult) {
-                originalPriceTotalAmount += ((PromotionPurchaseResult) result).getOriginalCount() * result.getPrice();
+                originalPriceTotalAmount += ((PromotionPurchaseResult) result).getOriginalAmount();
                 continue;
             }
             originalPriceTotalAmount += result.getTotalAmount();

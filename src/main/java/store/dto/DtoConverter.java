@@ -54,7 +54,8 @@ public final class DtoConverter {
     }
 
     private static TotalPaymentResponse getTotalPaymentResponse(int finalCount, int finalAmount) {
-        return new TotalPaymentResponse(ReceiptCategory.TOTAL_PURCHASE_AMOUNT_CATEGORY.get(), finalCount, NumberFormatUtil.numberFormat(finalAmount));
+        return new TotalPaymentResponse(ReceiptCategory.TOTAL_PURCHASE_AMOUNT_CATEGORY.get(), finalCount,
+                NumberFormatUtil.numberFormat(finalAmount));
     }
 
     private static int getFinalCount(List<PurchaseResult> results) {

@@ -3,14 +3,12 @@ package store.domain;
 public class PromotionPurchaseResult extends PurchaseResult {
     private int promotionAppliedCount;
     private int originalCount;
-    private int promotionAppliedAmount;
 
     public PromotionPurchaseResult(String name, int price, int totalCount, int promotionAppliedCount,
                                    int originalCount) {
         super(name, price, totalCount);
         this.promotionAppliedCount = promotionAppliedCount;
         this.originalCount = originalCount;
-        this.promotionAppliedAmount = promotionAppliedCount * price;
     }
 
     public int getPromotionAppliedCount() {
@@ -22,24 +20,21 @@ public class PromotionPurchaseResult extends PurchaseResult {
     }
 
     public int getPromotionAppliedAmount(){
-        return promotionAppliedAmount;
+        return promotionAppliedCount * price;
     }
 
-    public void addPromotionProduct(){
-        totalCount ++;
-        promotionAppliedCount ++;
+    public int getOriginalAmount(){
+        return originalCount * price;
+    }
+
+    public void addPromotionProduct() {
+        totalCount++;
+        promotionAppliedCount++;
         originalCount = 0;
-        updateAmounts();
     }
 
-    public void removeOriginalPurchase(){
+    public void removeOriginalPurchase() {
         totalCount -= originalCount;
         originalCount = 0;
-        updateAmounts();
-    }
-
-    private void updateAmounts(){
-        totalAmount = totalCount * price;
-        promotionAppliedAmount = promotionAppliedCount * price;
     }
 }

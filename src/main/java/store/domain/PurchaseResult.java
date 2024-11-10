@@ -4,13 +4,11 @@ public abstract class PurchaseResult {
     private final String name;
     protected final int price;
     protected int totalCount;
-    protected int totalAmount;
 
     public PurchaseResult(String name, int price, int totalCount) {
         this.name = name;
         this.price = price;
         this.totalCount = totalCount;
-        this.totalAmount = totalCount * price;
     }
 
     public String getName() {
@@ -26,6 +24,6 @@ public abstract class PurchaseResult {
     }
 
     public int getTotalAmount(){
-        return totalAmount;
+        return totalCount * price;
     }
 }
