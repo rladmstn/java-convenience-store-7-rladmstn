@@ -1,6 +1,6 @@
 package store.domain;
 
-public abstract class Product {
+public class Product {
     private static final String NON_STOCK = "재고 없음";
     private static final String COUNT_SUFFIX = "개";
 

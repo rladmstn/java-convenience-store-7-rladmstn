@@ -2,6 +2,7 @@ package store.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import store.constants.CommonConstant;
 import store.constants.FilePath;
 import store.domain.Catalog;
 import store.domain.Product;
@@ -12,7 +13,6 @@ import store.factory.PromotionFactory;
 import store.util.Reader;
 
 public class ConvenienceStoreInitializer {
-    private final String DELIMITER = ",";
     private final ProductFactory productFactory = new ProductFactory();
     private final PromotionFactory promotionFactory = new PromotionFactory();
     private final List<Promotion> promotions;
@@ -36,7 +36,7 @@ public class ConvenienceStoreInitializer {
         List<Promotion> promotions = new ArrayList<>();
 
         for(String line : content){
-            Promotion promotion = promotionFactory.createPromotion(line.split(DELIMITER));
+            Promotion promotion = promotionFactory.createPromotion(line.split(CommonConstant.DELIMITER.get()));
             promotions.add(promotion);
         }
         return promotions;
@@ -47,7 +47,7 @@ public class ConvenienceStoreInitializer {
         Catalog catalog = new Catalog();
 
         for(String line : content){
-            Product product = productFactory.createProduct(line.split(DELIMITER), promotions);
+            Product product = productFactory.createProduct(line.split(CommonConstant.DELIMITER.get()), promotions);
             catalog.addProduct(product);
         }
         addMissingNormalProduct(catalog);

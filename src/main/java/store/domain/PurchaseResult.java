@@ -1,6 +1,6 @@
 package store.domain;
 
-public abstract class PurchaseResult {
+public class PurchaseResult {
     private final String name;
     protected final int price;
     protected int totalCount;
