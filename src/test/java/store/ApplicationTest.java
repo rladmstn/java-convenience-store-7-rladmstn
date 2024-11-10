@@ -46,11 +46,43 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 여러_개의_프로모션_상품_구매(){
+        assertSimpleTest(() -> {
+            run("[콜라-5]","Y","N","N");
+            assertThat(output().replaceAll("\\s","")).contains("내실돈4,000");
+        });
+    }
+
+    @Test
     void 기간에_해당하지_않는_프로모션_적용() {
         assertNowTest(() -> {
             run("[감자칩-2]", "N", "N");
             assertThat(output().replaceAll("\\s", "")).contains("내실돈3,000");
         }, LocalDate.of(2024, 2, 1).atStartOfDay());
+    }
+
+    @Test
+    void 멤버십_할인_적용(){
+        assertSimpleTest(() -> {
+            run("[물-2]","Y","N");
+            assertThat(output().replaceAll("\\s","")).contains("내실돈700");
+        });
+    }
+
+    @Test
+    void 원가_구매가_필요한_경우_원가_구매(){
+        assertSimpleTest(() -> {
+           run("[콜라-12]","Y","N","N");
+           assertThat(output().replaceAll("\\s","")).contains("내실돈9,000");
+        });
+    }
+
+    @Test
+    void 원가_구매가_필요한_경우_원가_구매_안함(){
+        assertSimpleTest(() -> {
+            run("[콜라-12]","N","N","N");
+            assertThat(output().replaceAll("\\s","")).contains("내실돈6,000");
+        });
     }
 
     @Test
