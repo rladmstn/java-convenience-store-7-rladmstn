@@ -15,10 +15,6 @@ public abstract class PurchaseResult {
         return name;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
     public int getTotalCount() {
         return totalCount;
     }
