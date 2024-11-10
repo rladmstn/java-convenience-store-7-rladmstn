@@ -9,13 +9,13 @@ public class InputView {
         return Console.readLine();
     }
 
-    public String askNonPromotionPurchase(){
-        System.out.println(PrintMessage.INPUT_PROMOTION_NOT_APPLIED.get());
+    public String askNonPromotionPurchase(String productName, int count){
+        System.out.println(PrintMessage.INPUT_PROMOTION_NOT_APPLIED.format(productName,count));
         return Console.readLine();
     }
 
-    public String askAdditionalPromotion(){
-        System.out.println(PrintMessage.INPUT_ADDITIONAL_PROMOTION.get());
+    public String askAdditionalPromotion(String productName){
+        System.out.println(PrintMessage.INPUT_ADDITIONAL_PROMOTION.format(productName));
         return Console.readLine();
     }
 
