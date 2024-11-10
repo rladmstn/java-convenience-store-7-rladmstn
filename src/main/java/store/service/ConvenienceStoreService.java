@@ -1,12 +1,16 @@
 package store.service;
 
+import java.util.List;
 import store.domain.Catalog;
 import store.domain.Promotion;
 import store.domain.PromotionProduct;
 import store.domain.PromotionPurchaseResult;
+import store.domain.PurchaseResult;
 
 public class ConvenienceStoreService {
     private final Catalog catalog;
+    private static final int MAX_MEMBERSHIP_DISCOUNT = 8000;
+    private static final float MEMBERSHIP_DISCOUNT_PERCENT = 0.3F;
 
     public ConvenienceStoreService(Catalog catalog) {
         this.catalog = catalog;
@@ -41,4 +45,15 @@ public class ConvenienceStoreService {
                 promotionAppliedCount, originalCount);
     }
 
+    public int calculateMembershipDiscountAmount(List<PurchaseResult> purchaseResults) {
+        int originalPriceTotalAmount = 0;
+        for(PurchaseResult result : purchaseResults) { // 원금 구매 금액 총합산하기
+            if(result instanceof PromotionPurchaseResult){
+                originalPriceTotalAmount += ((PromotionPurchaseResult) result).getOriginalCount() * result.getPrice();
+                continue;
+            }
+            originalPriceTotalAmount += result.getTotalAmount();
+        }
+        return (int) Math.min(MAX_MEMBERSHIP_DISCOUNT, originalPriceTotalAmount * MEMBERSHIP_DISCOUNT_PERCENT);
+    }
 }
