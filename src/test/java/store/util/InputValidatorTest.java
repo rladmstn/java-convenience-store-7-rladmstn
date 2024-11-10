@@ -70,4 +70,19 @@ class InputValidatorTest {
     void validatePurchaseSelection(String input){
         InputValidator.validatePurchaseSelection(input, catalog);
     }
+
+    @Test
+    @DisplayName("Y/N 질문에 대한 답변 검증 실패")
+    void validateAnswerFailed(){
+        Assertions.assertThatThrownBy(() -> InputValidator.validateAnswer("a"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.INVALID_INPUT.getMessage());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Y","N"})
+    @DisplayName("Y/N 질문에 대한 답변 검증 성공")
+    void validateAnswerSuccess(String input){
+        InputValidator.validateAnswer(input);
+    }
 }
