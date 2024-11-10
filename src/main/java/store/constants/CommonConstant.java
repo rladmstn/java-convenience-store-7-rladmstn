@@ -2,7 +2,9 @@ package store.constants;
 
 public enum CommonConstant {
     DELIMITER(","),
-    PURCHASE_DELIMITER("-");
+    PURCHASE_DELIMITER("-"),
+    YES("Y"),
+    NO("N");
 
     private final String value;
 

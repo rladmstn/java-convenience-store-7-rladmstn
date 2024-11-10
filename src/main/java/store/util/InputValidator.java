@@ -1,6 +1,7 @@
 package store.util;
 
 import java.util.List;
+import store.constants.CommonConstant;
 import store.constants.ErrorMessage;
 import store.domain.Catalog;
 import store.dto.DtoConverter;
@@ -12,6 +13,10 @@ public class InputValidator {
     public static void validatePurchaseSelection(String input, Catalog catalog){
         validatePurchaseForm(input);
         validateCanPurchase(input, catalog);
+    }
+
+    public static void validateAnswer(String input){
+        validateAnswerForm(input);
     }
 
     private static void validateCanPurchase(String input, Catalog catalog) {
@@ -39,6 +44,12 @@ public class InputValidator {
     private static void checkSufficientStock(Catalog catalog, String productName, int count) {
         if(!catalog.hasSufficientStock(productName, count)){
             throw new IllegalArgumentException(ErrorMessage.OVER_STOCK.getMessage());
+        }
+    }
+
+    private static void validateAnswerForm(String input) {
+        if(!(input.equals(CommonConstant.YES.get()) || input.equals(CommonConstant.NO.get()))){
+            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.getMessage());
         }
     }
 }
