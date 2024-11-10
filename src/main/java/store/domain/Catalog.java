@@ -57,6 +57,10 @@ public class Catalog {
         return getPromotionProducts(product.getName());
     }
 
+    public List<Product> getProducts(String name) {
+        return catalog.get(name);
+    }
+
     public boolean existPromotionProducts(String name) {
         List<Product> products = catalog.get(name);
         return !products.stream()

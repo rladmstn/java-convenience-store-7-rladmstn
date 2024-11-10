@@ -21,4 +21,8 @@ public class ProductFactory {
         Promotion promotion = Promotion.getByPromotionName(promotions, promotionName);
         return new PromotionProduct(name, price, stock, promotion);
     }
+
+    public Product createNormalProduct(String name, int price){
+        return new NormalProduct(name, price, 0);
+    }
 }
