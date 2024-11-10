@@ -3,18 +3,22 @@ package store.service;
 import static org.assertj.core.api.Assertions.*;
 
 import camp.nextstep.edu.missionutils.DateTimes;
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import store.domain.Catalog;
 import store.domain.NormalProduct;
+import store.domain.NormalPurchaseResult;
 import store.domain.Promotion;
 import store.domain.PromotionProduct;
 import store.domain.PromotionPurchaseResult;
+import store.domain.PurchaseResult;
 
 class ConvenienceStoreServiceTest {
     static Catalog catalog;
@@ -101,6 +105,21 @@ class ConvenienceStoreServiceTest {
         assertThat(result.getOriginalCount()).isEqualTo(originalCount);
         assertThat(result.getPromotionAppliedCount()).isEqualTo(promotionAppliedCount);
         assertThat(result.getTotalCount()).isEqualTo(totalCount);
+    }
+
+    @Test
+    @DisplayName("멤버십 할인 금액 계산")
+    void calculateMembershipDiscountAmount() {
+        List<PurchaseResult> purchaseResults = List.of(
+                new NormalPurchaseResult("normalProduct", 1000, 10),
+                new PromotionPurchaseResult("promotionProduct1", 2000, 5, 1, 2),
+                new PromotionPurchaseResult("promotionProduct2", 500, 10, 3, 1),
+                new PromotionPurchaseResult("promotionProduct3", 1500, 10, 3, 4));
+        // when
+        int result = service.calculateMembershipDiscountAmount(purchaseResults);
+        // then
+        int expected = (int) (((1000*10) + (2000*2) + (500*1) + (1500*4)) * 0.3);
+        assertThat(result).isEqualTo(expected);
     }
 
     private static Stream<Arguments> getTestParameters(){
