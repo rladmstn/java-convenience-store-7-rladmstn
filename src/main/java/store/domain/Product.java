@@ -31,9 +31,9 @@ public abstract class Product {
     }
 
     public String getStockToString(){
-        if(price == 0){
+        if(stock == 0){
             return NON_STOCK;
         }
-        return price + COUNT_SUFFIX;
+        return stock + COUNT_SUFFIX;
     }
 }
