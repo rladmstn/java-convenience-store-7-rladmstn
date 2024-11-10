@@ -12,6 +12,7 @@ import store.domain.PromotionPurchaseResult;
 import store.domain.PurchaseResult;
 import store.dto.DtoConverter;
 import store.dto.PurchaseInputRequest;
+import store.dto.ReceiptResponse;
 import store.service.ConvenienceStoreService;
 import store.util.InputValidator;
 import store.view.InputView;
@@ -22,15 +23,24 @@ public class ConvenienceStoreController {
     private final OutputView outputView = new OutputView();
     private final ConvenienceStoreService service;
     private final Catalog catalog;
-    private final List<Promotion> promotions;
 
-    public ConvenienceStoreController(Catalog catalog, List<Promotion> promotions) {
+    public ConvenienceStoreController(Catalog catalog) {
         this.catalog = catalog;
         this.service = new ConvenienceStoreService(catalog);
-        this.promotions = promotions;
     }
 
     public void run() {
+        while (true) {
+            outputView.printCatalog(DtoConverter.toCatalogResponse(catalog));
+            List<PurchaseInputRequest> purchases = getPurchaseSelection();
+            List<PurchaseResult> purchaseResults = processPurchase(purchases);
+            int membershipDiscount = applyMembershipDiscount(purchaseResults);
+            ReceiptResponse receipt = DtoConverter.toReceiptResponse(purchaseResults, membershipDiscount);
+            outputView.printReceipt(receipt);
+            if(!wantsToMorePurchase()) {
+                break;
+            }
+        }
     }
 
     private int applyMembershipDiscount(List<PurchaseResult> purchaseResults) {
@@ -129,6 +139,17 @@ public class ConvenienceStoreController {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return wantsToApplyMembershipDiscount();
+        }
+    }
+
+    private boolean wantsToMorePurchase() {
+        try {
+            String input = inputView.askAdditionalPurchase();
+            InputValidator.validateAnswer(input);
+            return input.equals(CommonConstant.YES.get());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return wantsToMorePurchase();
         }
     }
 }
