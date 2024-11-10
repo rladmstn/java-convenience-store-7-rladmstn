@@ -1,8 +1,8 @@
 package store.domain;
 
 public class PromotionPurchaseResult extends PurchaseResult {
-    private final int promotionAppliedCount;
-    private final int originalCount;
+    private int promotionAppliedCount;
+    private int originalCount;
 
     public PromotionPurchaseResult(String name, int price, int totalCount, int promotionAppliedCount,
                                    int originalCount) {
@@ -21,5 +21,16 @@ public class PromotionPurchaseResult extends PurchaseResult {
 
     public int getPromotionDiscountAmount(){
         return price * promotionAppliedCount;
+    }
+
+    public void addPromotionProduct(){
+        totalCount ++;
+        promotionAppliedCount ++;
+        originalCount = 0;
+    }
+
+    public void removeOriginalPurchase(){
+        totalCount -= originalCount;
+        originalCount = 0;
     }
 }

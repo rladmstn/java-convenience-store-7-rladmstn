@@ -3,7 +3,7 @@ package store.domain;
 public abstract class PurchaseResult {
     private final String name;
     protected final int price;
-    private final int totalCount;
+    protected int totalCount;
 
     public PurchaseResult(String name, int price, int totalCount) {
         this.name = name;
