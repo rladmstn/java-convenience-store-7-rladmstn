@@ -27,10 +27,6 @@ public class PromotionPurchaseResult extends PurchaseResult {
         return promotionAppliedAmount;
     }
 
-    public int getOriginalAmount() {
-        return originalAmount;
-    }
-
     public void addPromotionProduct(){
         totalCount ++;
         promotionAppliedCount ++;
