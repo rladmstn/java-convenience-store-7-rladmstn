@@ -88,7 +88,7 @@ public final class DtoConverter {
         SummaryResponse membershipResponse = new SummaryResponse(ReceiptCategory.MEMBERSHIP_CATEGORY.get(),
                 MINUS + NumberFormatUtil.numberFormat(membershipDiscount));
         SummaryResponse finalPaymentResponse = new SummaryResponse(ReceiptCategory.FINAL_PAYMENT_CATEGORY.get(),
-                String.valueOf(finalAmount - finalPromotionAmount - membershipDiscount));
+                NumberFormatUtil.numberFormat(finalAmount - finalPromotionAmount - membershipDiscount));
 
         return List.of(promotionResponse, membershipResponse, finalPaymentResponse);
     }
