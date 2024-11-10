@@ -47,8 +47,8 @@ public class ConvenienceStoreService {
 
     public int calculateMembershipDiscountAmount(List<PurchaseResult> purchaseResults) {
         int originalPriceTotalAmount = 0;
-        for(PurchaseResult result : purchaseResults) { // 원금 구매 금액 총합산하기
-            if(result instanceof PromotionPurchaseResult){
+        for (PurchaseResult result : purchaseResults) {
+            if (result instanceof PromotionPurchaseResult) {
                 originalPriceTotalAmount += ((PromotionPurchaseResult) result).getOriginalCount() * result.getPrice();
                 continue;
             }
