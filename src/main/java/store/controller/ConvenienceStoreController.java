@@ -1,9 +1,15 @@
 package store.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import store.constants.CommonConstant;
 import store.domain.Catalog;
+import store.domain.NormalProduct;
+import store.domain.NormalPurchaseResult;
 import store.domain.Promotion;
+import store.domain.PromotionProduct;
+import store.domain.PromotionPurchaseResult;
+import store.domain.PurchaseResult;
 import store.dto.DtoConverter;
 import store.dto.PurchaseInputRequest;
 import store.service.ConvenienceStoreService;
@@ -25,6 +31,53 @@ public class ConvenienceStoreController {
     }
 
     public void run() {
+    }
+
+    private List<PurchaseResult> processPurchase(List<PurchaseInputRequest> purchases) {
+        List<PurchaseResult> results = new ArrayList<>();
+        for (PurchaseInputRequest purchase : purchases) {
+            if (service.isPromotionActive(purchase.productName())) {
+                results.add(purchasePromotionProducts(purchase.productName(), purchase.count()));
+                continue;
+            }
+            results.add(purchaseNormalProducts(purchase.productName(), purchase.count()));
+        }
+        return results;
+    }
+
+    private NormalPurchaseResult purchaseNormalProducts(String productName, int purchaseCount) {
+        NormalProduct normalProduct = catalog.getNormalProducts(productName);
+        catalog.decreaseStock(normalProduct, purchaseCount);
+        return new NormalPurchaseResult(
+                productName,
+                normalProduct.getPrice(),
+                purchaseCount);
+    }
+
+    private PromotionPurchaseResult purchasePromotionProducts(String productName, int purchaseCount) {
+        PromotionProduct promotionProduct = catalog.getPromotionProducts(productName);
+        PromotionPurchaseResult result = service.initPromotionPurchaseResult(purchaseCount, promotionProduct);
+        if (canAddPromotionProduct(purchaseCount, result, promotionProduct.getPromotion(), promotionProduct)) {
+            result.addPromotionProduct();
+        }
+        if (shouldPurchaseAtOriginalPrice(productName, purchaseCount, result, promotionProduct)) {
+            result.removeOriginalPurchase();
+        }
+        catalog.decreaseStock(promotionProduct, result.getTotalCount());
+        return result;
+    }
+
+    private boolean shouldPurchaseAtOriginalPrice(String productName, int purchaseCount, PromotionPurchaseResult result,
+                                                  PromotionProduct promotionProduct) {
+        return service.isOriginalPurchaseRequired(result.getOriginalCount(), promotionProduct.getStock(), purchaseCount)
+                && !wantsToOriginalPurchase(productName, result.getOriginalCount());
+    }
+
+    private boolean canAddPromotionProduct(int purchaseCount, PromotionPurchaseResult result,
+                                           Promotion promotion, PromotionProduct promotionProduct) {
+        return service.isPromotionProductAddable(result.getOriginalCount(), purchaseCount, promotion,
+                promotionProduct.getStock())
+                && wantsToAddPromotionProduct(promotionProduct.getName());
     }
 
     private List<PurchaseInputRequest> getPurchaseSelection() {
