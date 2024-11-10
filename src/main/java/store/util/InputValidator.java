@@ -36,7 +36,7 @@ public class InputValidator {
     }
 
     private static void checkProductExists(Catalog catalog, String productName) {
-        if(!catalog.hasProduct(productName)) {
+        if(!catalog.existProducts(productName)) {
             throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_PRODUCT.getMessage());
         }
     }
