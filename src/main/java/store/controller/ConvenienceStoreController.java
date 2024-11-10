@@ -33,6 +33,14 @@ public class ConvenienceStoreController {
     public void run() {
     }
 
+    private int applyMembershipDiscount(List<PurchaseResult> purchaseResults) {
+        int membershipDiscount = 0;
+        if(wantsToApplyMembershipDiscount()){
+            membershipDiscount = service.calculateMembershipDiscountAmount(purchaseResults);
+        }
+        return membershipDiscount;
+    }
+
     private List<PurchaseResult> processPurchase(List<PurchaseInputRequest> purchases) {
         List<PurchaseResult> results = new ArrayList<>();
         for (PurchaseInputRequest purchase : purchases) {
