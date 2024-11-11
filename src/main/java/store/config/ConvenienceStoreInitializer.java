@@ -1,5 +1,6 @@
 package store.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import store.constants.CommonConstant;
@@ -18,7 +19,7 @@ public class ConvenienceStoreInitializer {
     private final List<Promotion> promotions;
     private final Catalog catalog;
 
-    public ConvenienceStoreInitializer() {
+    public ConvenienceStoreInitializer() throws IOException {
         promotions = initializePromotions();
         catalog = initializeCatalog();
     }
@@ -31,7 +32,7 @@ public class ConvenienceStoreInitializer {
         return catalog;
     }
 
-    private List<Promotion> initializePromotions(){
+    private List<Promotion> initializePromotions() throws IOException{
         List<String> content = Reader.readFile(FilePath.PROMOTIONS);
         List<Promotion> promotions = new ArrayList<>();
 
@@ -42,7 +43,7 @@ public class ConvenienceStoreInitializer {
         return promotions;
     }
 
-    private Catalog initializeCatalog(){
+    private Catalog initializeCatalog() throws IOException{
         List<String> content = Reader.readFile(FilePath.PRODUCTS);
         Catalog catalog = new Catalog();
 

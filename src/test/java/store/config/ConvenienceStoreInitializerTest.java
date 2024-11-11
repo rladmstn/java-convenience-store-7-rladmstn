@@ -1,5 +1,6 @@
 package store.config;
 
+import java.io.IOException;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,7 +15,7 @@ class ConvenienceStoreInitializerTest {
     final int CATALOG_COUNT = 11;
 
     @BeforeAll
-    static void setUp(){
+    static void setUp() throws IOException {
         initializer = new ConvenienceStoreInitializer();
     }
 

@@ -5,18 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import store.constants.ErrorMessage;
 
 public final class Reader {
-    public static List<String> readFile(String filePath) {
-        try(BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            List<String> content = new ArrayList<>();
-            readContent(reader, content);
-            return content;
-        } catch (IOException e){
-            System.out.println(ErrorMessage.FAILED_TO_READ_FILE.getMessage());
-            return readFile(filePath);
-        }
+    public static List<String> readFile(String filePath) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        List<String> content = new ArrayList<>();
+        readContent(reader, content);
+        reader.close();
+        return content;
     }
 
     private static void readContent(BufferedReader reader, List<String> content) throws IOException {
