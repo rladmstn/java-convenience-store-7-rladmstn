@@ -37,7 +37,7 @@ public class ConvenienceStoreController {
             int membershipDiscount = applyMembershipDiscount(purchaseResults);
             ReceiptResponse receipt = DtoConverter.toReceiptResponse(purchaseResults, membershipDiscount);
             outputView.printReceipt(receipt);
-            if(!wantsToMorePurchase()) {
+            if (!wantsToMorePurchase()) {
                 break;
             }
         }
@@ -45,7 +45,7 @@ public class ConvenienceStoreController {
 
     private int applyMembershipDiscount(List<PurchaseResult> purchaseResults) {
         int membershipDiscount = 0;
-        if(wantsToApplyMembershipDiscount()){
+        if (wantsToApplyMembershipDiscount()) {
             membershipDiscount = service.calculateMembershipDiscountAmount(purchaseResults);
         }
         return membershipDiscount;
@@ -55,12 +55,19 @@ public class ConvenienceStoreController {
         List<PurchaseResult> results = new ArrayList<>();
         for (PurchaseInputRequest purchase : purchases) {
             if (service.isPromotionActive(purchase.productName())) {
-                results.add(purchasePromotionProducts(purchase.productName(), purchase.count()));
+                addPromotionPurchaseResult(purchase, results);
                 continue;
             }
             results.add(purchaseNormalProducts(purchase.productName(), purchase.count()));
         }
         return results;
+    }
+
+    private void addPromotionPurchaseResult(PurchaseInputRequest purchase, List<PurchaseResult> results) {
+        PromotionPurchaseResult result = purchasePromotionProducts(purchase.productName(), purchase.count());
+        if (result.getTotalCount() > 0) {
+            results.add(result);
+        }
     }
 
     private NormalPurchaseResult purchaseNormalProducts(String productName, int purchaseCount) {
