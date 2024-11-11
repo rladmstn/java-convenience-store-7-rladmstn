@@ -30,16 +30,27 @@ public class ConvenienceStoreController {
     }
 
     public void run() {
-        while (true) {
-            outputView.printCatalog(DtoConverter.toCatalogResponse(catalog));
-            List<PurchaseInputRequest> purchases = getPurchaseSelection();
+        do {
+            List<PurchaseInputRequest> purchases = getPurchaseInputRequests();
             List<PurchaseResult> purchaseResults = processPurchase(purchases);
-            int membershipDiscount = applyMembershipDiscount(purchaseResults);
-            ReceiptResponse receipt = DtoConverter.toReceiptResponse(purchaseResults, membershipDiscount);
+            ReceiptResponse receipt = getReceiptResponse(purchaseResults);
+            printPurchaseResultReceipt(purchaseResults, receipt);
+        } while (wantsToMorePurchase());
+    }
+
+    private List<PurchaseInputRequest> getPurchaseInputRequests() {
+        outputView.printCatalog(DtoConverter.toCatalogResponse(catalog));
+        return getPurchaseSelection();
+    }
+
+    private ReceiptResponse getReceiptResponse(List<PurchaseResult> purchaseResults) {
+        int membershipDiscount = applyMembershipDiscount(purchaseResults);
+        return DtoConverter.toReceiptResponse(purchaseResults, membershipDiscount);
+    }
+
+    private void printPurchaseResultReceipt(List<PurchaseResult> purchaseResults, ReceiptResponse receipt) {
+        if(!purchaseResults.isEmpty()) {
             outputView.printReceipt(receipt);
-            if (!wantsToMorePurchase()) {
-                break;
-            }
         }
     }
 
