@@ -9,6 +9,7 @@ import store.dto.PurchaseInputRequest;
 
 public class InputValidator {
     private static final String PURCHASE_PATTERN = "^\\[[가-힣]+-\\d+\\](,\\[[가-힣]+-\\d+\\])*$";
+    private static final int MIN_PURCHASE_COUNT = 1;
 
     public static void validatePurchaseSelection(String input, Catalog catalog){
         validatePurchaseForm(input);
@@ -25,6 +26,7 @@ public class InputValidator {
             String productName = request.productName();
             int count = request.count();
             checkProductExists(catalog, productName);
+            checkPurchaseCount(count);
             checkSufficientStock(catalog, productName, count);
         }
     }
@@ -38,6 +40,12 @@ public class InputValidator {
     private static void checkProductExists(Catalog catalog, String productName) {
         if(!catalog.existProducts(productName)) {
             throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_PRODUCT.getMessage());
+        }
+    }
+
+    private static void checkPurchaseCount(int count) {
+        if(count < MIN_PURCHASE_COUNT){
+            throw new IllegalArgumentException(ErrorMessage.MIN_PURCHASE_COUNT.getMessage());
         }
     }
 
