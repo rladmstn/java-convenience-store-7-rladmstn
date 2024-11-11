@@ -7,7 +7,7 @@ import store.domain.Catalog;
 import store.dto.DtoConverter;
 import store.dto.PurchaseInputRequest;
 
-public class InputValidator {
+public final class InputValidator {
     private static final String PURCHASE_PATTERN = "^\\[[가-힣]+-\\d+\\](,\\[[가-힣]+-\\d+\\])*$";
     private static final int MIN_PURCHASE_COUNT = 1;
 
