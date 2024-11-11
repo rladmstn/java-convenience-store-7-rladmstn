@@ -24,36 +24,36 @@ public class ConvenienceStoreService {
         return false;
     }
 
-    public boolean isPromotionProductAddable(int originalCount, int purchaseCount, Promotion promotion, int stock) {
+    public boolean isPromotionProductAddable(int normalPurchaseCount, int purchaseCount, Promotion promotion, int stock) {
         int buyCount = promotion.buyCount();
         int giveCount = promotion.giveCount();
-        return (originalCount == buyCount) && (stock >= giveCount + purchaseCount);
+        return (normalPurchaseCount == buyCount) && (stock >= giveCount + purchaseCount);
     }
 
-    public boolean isOriginalPurchaseRequired(int originalCount, int promotionStock, int purchaseCount) {
-        return originalCount > 0 && promotionStock <= purchaseCount;
+    public boolean isNormalPurchaseRequired(int normalPurchaseCount, int promotionStock, int purchaseCount) {
+        return normalPurchaseCount > 0 && promotionStock <= purchaseCount;
     }
 
     public PromotionPurchaseResult initPromotionPurchaseResult(int purchaseCount, PromotionProduct promotionProduct) {
         Promotion promotion = promotionProduct.getPromotion();
         int promotionAppliedCount =
                 Math.min(purchaseCount, promotionProduct.getStock()) / (promotion.giveCount() + promotion.buyCount());
-        int originalCount =
+        int normalPurchaseCount =
                 purchaseCount - promotionAppliedCount * (promotion.giveCount() + promotion.buyCount());
         return new PromotionPurchaseResult(
                 promotionProduct.getName(), promotionProduct.getPrice(), purchaseCount,
-                promotionAppliedCount, originalCount);
+                promotionAppliedCount, normalPurchaseCount);
     }
 
     public int calculateMembershipDiscountAmount(List<PurchaseResult> purchaseResults) {
-        int originalPriceTotalAmount = 0;
+        int totalNormalPurchaseAmount = 0;
         for (PurchaseResult result : purchaseResults) {
             if (result instanceof PromotionPurchaseResult) {
-                originalPriceTotalAmount += ((PromotionPurchaseResult) result).getOriginalAmount();
+                totalNormalPurchaseAmount += ((PromotionPurchaseResult) result).getNormalPurchaseAmount();
                 continue;
             }
-            originalPriceTotalAmount += result.getTotalAmount();
+            totalNormalPurchaseAmount += result.getTotalAmount();
         }
-        return (int) Math.min(MAX_MEMBERSHIP_DISCOUNT, originalPriceTotalAmount * MEMBERSHIP_DISCOUNT_PERCENT);
+        return (int) Math.min(MAX_MEMBERSHIP_DISCOUNT, totalNormalPurchaseAmount * MEMBERSHIP_DISCOUNT_PERCENT);
     }
 }

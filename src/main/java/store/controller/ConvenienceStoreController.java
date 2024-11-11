@@ -96,22 +96,22 @@ public class ConvenienceStoreController {
         if (canAddPromotionProduct(purchaseCount, result, promotionProduct.getPromotion(), promotionProduct)) {
             result.addPromotionProduct();
         }
-        if (shouldPurchaseAtOriginalPrice(productName, purchaseCount, result, promotionProduct)) {
-            result.removeOriginalPurchase();
+        if (shouldPurchaseAtNormalPrice(productName, purchaseCount, result, promotionProduct)) {
+            result.removeNormalPurchase();
         }
         catalog.decreaseStock(promotionProduct, result.getTotalCount());
         return result;
     }
 
-    private boolean shouldPurchaseAtOriginalPrice(String productName, int purchaseCount, PromotionPurchaseResult result,
-                                                  PromotionProduct promotionProduct) {
-        return service.isOriginalPurchaseRequired(result.getOriginalCount(), promotionProduct.getStock(), purchaseCount)
-                && !wantsToOriginalPurchase(productName, result.getOriginalCount());
+    private boolean shouldPurchaseAtNormalPrice(String productName, int purchaseCount, PromotionPurchaseResult result,
+                                                PromotionProduct promotionProduct) {
+        return service.isNormalPurchaseRequired(result.getNormalPurchaseCount(), promotionProduct.getStock(), purchaseCount)
+                && !wantsToNormalPurchase(productName, result.getNormalPurchaseCount());
     }
 
     private boolean canAddPromotionProduct(int purchaseCount, PromotionPurchaseResult result,
                                            Promotion promotion, PromotionProduct promotionProduct) {
-        return service.isPromotionProductAddable(result.getOriginalCount(), purchaseCount, promotion,
+        return service.isPromotionProductAddable(result.getNormalPurchaseCount(), purchaseCount, promotion,
                 promotionProduct.getStock())
                 && wantsToAddPromotionProduct(promotionProduct.getName());
     }
@@ -138,14 +138,14 @@ public class ConvenienceStoreController {
         }
     }
 
-    private boolean wantsToOriginalPurchase(String productName, int count) {
+    private boolean wantsToNormalPurchase(String productName, int count) {
         try {
             String input = inputView.askNonPromotionPurchase(productName, count);
             InputValidator.validateAnswer(input);
             return input.equals(CommonConstant.YES.get());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return wantsToOriginalPurchase(productName, count);
+            return wantsToNormalPurchase(productName, count);
         }
     }
 

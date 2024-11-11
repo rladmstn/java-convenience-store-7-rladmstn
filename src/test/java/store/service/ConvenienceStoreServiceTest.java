@@ -22,7 +22,7 @@ import store.domain.PurchaseResult;
 
 class ConvenienceStoreServiceTest {
     static Catalog catalog;
-    static PromotionProduct promotion1Product, promotion2Product, promotion3Product, promotion4Product;
+    static PromotionProduct promotion1Product, promotion2Product, promotion3Product;
     static NormalProduct normalProduct;
     static Promotion promotion1, promotion2, promotion3;
     ConvenienceStoreService service = new ConvenienceStoreService(catalog);
@@ -72,9 +72,9 @@ class ConvenienceStoreServiceTest {
             "2, 5, 5, false" // 추가 증정 실패 : 재고 부족
     }, delimiter = ',')
     @DisplayName("프로모션 추가 증정이 가능한지 여부 판단")
-    void isPromotionProductAddable(int originalCount, int purchaseCount, int stock, boolean expected) {
+    void isPromotionProductAddable(int normalPurchaseCount, int purchaseCount, int stock, boolean expected) {
         // when
-        boolean result = service.isPromotionProductAddable(originalCount, purchaseCount, promotion2,
+        boolean result = service.isPromotionProductAddable(normalPurchaseCount, purchaseCount, promotion2,
                 stock);
         // then
         assertThat(result).isEqualTo(expected);
@@ -88,9 +88,9 @@ class ConvenienceStoreServiceTest {
             "0, 4, 4, false", // 1+1 프로모션, 원금 구매 필요 없음
     }, delimiter = ',')
     @DisplayName("원금 구매가 필요한지 여부 판단")
-    void isOriginalPurchaseRequired(int originalCount, int stock, int purchaseCount, boolean expected) {
+    void isNormalPurchaseRequired(int normalPurchaseCount, int stock, int purchaseCount, boolean expected) {
         // when
-        boolean result = service.isOriginalPurchaseRequired(originalCount, stock, purchaseCount);
+        boolean result = service.isNormalPurchaseRequired(normalPurchaseCount, stock, purchaseCount);
         // then
         assertThat(result).isEqualTo(expected);
     }
@@ -98,11 +98,11 @@ class ConvenienceStoreServiceTest {
     @ParameterizedTest
     @MethodSource("getTestParameters")
     @DisplayName("프로모션 구매 결과 초기화")
-    void initPromotionPurchaseResult(int purchaseCount, int originalCount, int totalCount, int promotionAppliedCount, PromotionProduct product) {
+    void initPromotionPurchaseResult(int purchaseCount, int normalPurchaseCount, int totalCount, int promotionAppliedCount, PromotionProduct product) {
         // when
         PromotionPurchaseResult result = service.initPromotionPurchaseResult(purchaseCount, product);
         // then
-        assertThat(result.getOriginalCount()).isEqualTo(originalCount);
+        assertThat(result.getNormalPurchaseCount()).isEqualTo(normalPurchaseCount);
         assertThat(result.getPromotionAppliedCount()).isEqualTo(promotionAppliedCount);
         assertThat(result.getTotalCount()).isEqualTo(totalCount);
     }
